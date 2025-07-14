@@ -24,15 +24,21 @@ interface Project {
 
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [currentImageIndex, setCurrentImageIndex] = useState<{ [key: string]: number }>({});
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Reset image index when project changes
   useEffect(() => {
-    setCurrentImageIndex(0);
-  }, [selectedProject]);
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleTouchStart = (e: TouchEvent) => {
     setTouchStart(e.touches[0].clientX);
@@ -42,19 +48,17 @@ export default function Projects() {
     setTouchEnd(e.touches[0].clientX);
   };
 
-  const handleTouchEnd = () => {
-    if (!selectedProject) return;
-
+  const handleTouchEnd = (projectTitle: string) => {
     const touchDiff = touchStart - touchEnd;
     const minSwipeDistance = 50;
 
     if (Math.abs(touchDiff) > minSwipeDistance) {
       if (touchDiff > 0) {
         // Swipe left
-        nextImage();
+        nextImage(projectTitle);
       } else {
         // Swipe right
-        prevImage();
+        prevImage(projectTitle);
       }
     }
 
@@ -138,34 +142,48 @@ export default function Projects() {
     window.open(url, '_blank');
   };
 
-  const nextImage = () => {
-    if (selectedProject && !isTransitioning) {
+  const nextImage = (projectTitle: string) => {
+    if (!isTransitioning) {
       setIsTransitioning(true);
-      setCurrentImageIndex((prevIndex) => 
-        prevIndex === selectedProject.images.length - 1 ? 0 : prevIndex + 1
-      );
-      setTimeout(() => setIsTransitioning(false), 300); // Match transition duration
+      setCurrentImageIndex((prev) => {
+        const currentIndex = prev[projectTitle] || 0;
+        const project = projects.find(p => p.title === projectTitle);
+        if (!project) return prev;
+        
+        return {
+          ...prev,
+          [projectTitle]: currentIndex === project.images.length - 1 ? 0 : currentIndex + 1
+        };
+      });
+      setTimeout(() => setIsTransitioning(false), 300);
     }
   };
 
-  const prevImage = () => {
-    if (selectedProject && !isTransitioning) {
+  const prevImage = (projectTitle: string) => {
+    if (!isTransitioning) {
       setIsTransitioning(true);
-      setCurrentImageIndex((prevIndex) => 
-        prevIndex === 0 ? selectedProject.images.length - 1 : prevIndex - 1
-      );
-      setTimeout(() => setIsTransitioning(false), 300); // Match transition duration
+      setCurrentImageIndex((prev) => {
+        const currentIndex = prev[projectTitle] || 0;
+        const project = projects.find(p => p.title === projectTitle);
+        if (!project) return prev;
+        
+        return {
+          ...prev,
+          [projectTitle]: currentIndex === 0 ? project.images.length - 1 : currentIndex - 1
+        };
+      });
+      setTimeout(() => setIsTransitioning(false), 300);
     }
   };
 
-  // Handle keyboard navigation
+  // Handle keyboard navigation for desktop modal
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (selectedProject) {
+      if (selectedProject && !isMobile) {
         if (e.key === 'ArrowLeft') {
-          prevImage();
+          prevImage(selectedProject.title);
         } else if (e.key === 'ArrowRight') {
-          nextImage();
+          nextImage(selectedProject.title);
         } else if (e.key === 'Escape') {
           setSelectedProject(null);
         }
@@ -174,26 +192,33 @@ export default function Projects() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedProject]);
+  }, [selectedProject, isMobile]);
 
   return (
     <div className="py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl font-bold text-center mb-12 gradient-heading">Our Projects</h1>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project) => (
             <div 
               key={project.title} 
-              className="gradient-card rounded-lg overflow-hidden shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:scale-[1.02] cursor-pointer enhanced-shadow"
+              className="backdrop-blur-md bg-white/10 rounded-lg overflow-hidden shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:scale-[1.02] cursor-pointer border border-white/20"
               onClick={() => {
-                setSelectedProject(project);
-                setCurrentImageIndex(0);
+                if (!isMobile) {
+                  setSelectedProject(project);
+                  setCurrentImageIndex(prev => ({ ...prev, [project.title]: 0 }));
+                }
               }}
             >
-              <div className="relative h-64 overflow-hidden gradient-hover">
+              <div 
+                className="relative h-64 overflow-hidden"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={() => handleTouchEnd(project.title)}
+              >
                 <Image
-                  src={project.images[0]}
+                  src={project.images[currentImageIndex[project.title] || 0]}
                   alt={project.title}
                   fill
                   className="object-cover"
@@ -201,38 +226,69 @@ export default function Projects() {
                 <div className="absolute top-4 right-4 bg-yellow-500 text-black px-4 py-1 rounded-full text-sm">
                   {project.category}
                 </div>
+
+                {/* Mobile Navigation Arrows */}
+                {isMobile && (
+                  <>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        prevImage(project.title);
+                      }}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/75 transition-opacity duration-300 z-10"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        nextImage(project.title);
+                      }}
+                      className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/75 transition-opacity duration-300 z-10"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                    <div className="absolute bottom-2 right-2 bg-black/50 text-white px-2 py-1 rounded-full text-xs">
+                      {(currentImageIndex[project.title] || 0) + 1} / {project.images.length}
+                    </div>
+                  </>
+                )}
               </div>
               
               <div className="p-6">
-                <h2 className="text-xl gradient-text font-bold mb-2">{project.title}</h2>
-                <p className="text-gray-600 text-base mb-4">{project.description}</p>
+                <h2 className="text-xl font-bold mb-2 text-white">{project.title}</h2>
+                <p className="text-gray-300 text-base mb-4 h-[72px] line-clamp-3 overflow-hidden">{project.description}</p>
                 
                 <div className="grid grid-cols-2 gap-4 text-sm">
-                  <div>
-                    <p className="font-semibold gradient-text">Location</p>
-                    <p className="text-gray-600">{project.details.location}</p>
+                  <div className="h-[60px]">
+                    <p className="font-semibold text-yellow-500">Location</p>
+                    <p className="text-gray-300 line-clamp-2">{project.details.location}</p>
                   </div>
-                  <div>
-                    <p className="font-semibold gradient-text">Duration</p>
-                    <p className="text-gray-600">{project.details.duration}</p>
+                  <div className="h-[60px]">
+                    <p className="font-semibold text-yellow-500">Duration</p>
+                    <p className="text-gray-300 line-clamp-2">{project.details.duration}</p>
                   </div>
-                  <div>
-                    <p className="font-semibold gradient-text">Size</p>
-                    <p className="text-gray-600">{project.details.size}</p>
+                  <div className="h-[60px]">
+                    <p className="font-semibold text-yellow-500">Size</p>
+                    <p className="text-gray-300 line-clamp-2">{project.details.size}</p>
                   </div>
-                  <div>
-                    <p className="font-semibold gradient-text">Completed</p>
-                    <p className="text-gray-600">{project.details.completed}</p>
+                  <div className="h-[60px]">
+                    <p className="font-semibold text-yellow-500">Completed</p>
+                    <p className="text-gray-300 line-clamp-2">{project.details.completed}</p>
                   </div>
                 </div>
 
-                <div className="mt-4 text-sm text-yellow-600 flex items-center justify-end">
+                <div className="mt-4 text-sm flex items-center justify-end">
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       openInGoogleMaps(project.details.coordinates);
                     }}
-                    className="flex items-center gradient-yellow hover:text-yellow-700"
+                    className="flex items-center text-yellow-500 hover:text-yellow-400"
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
                       <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
@@ -246,25 +302,18 @@ export default function Projects() {
         </div>
       </div>
 
-      {/* Project Details Modal */}
-      {selectedProject && (
+      {/* Project Details Modal - Only shown on desktop */}
+      {selectedProject && !isMobile && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto gradient-card enhanced-shadow">
+          <div className="max-w-4xl w-full max-h-[90vh] overflow-y-auto backdrop-blur-md bg-white/10 rounded-lg border border-white/20">
             <div className="relative">
               {/* Image Slider */}
-              <div 
-                className="relative h-[50vh] w-full gradient-hover overflow-hidden"
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
-              >
-                <div 
-                  className={`absolute inset-0 transition-transform duration-300 ease-in-out ${
-                    isTransitioning ? 'opacity-50' : 'opacity-100'
-                  }`}
-                >
+              <div className="relative h-[50vh] w-full overflow-hidden">
+                <div className={`absolute inset-0 transition-transform duration-300 ease-in-out ${
+                  isTransitioning ? 'opacity-50' : 'opacity-100'
+                }`}>
                   <Image
-                    src={selectedProject.images[currentImageIndex]}
+                    src={selectedProject.images[currentImageIndex[selectedProject.title] || 0]}
                     alt={selectedProject.title}
                     fill
                     className="object-cover"
@@ -274,16 +323,16 @@ export default function Projects() {
                 
                 {/* Navigation Arrows */}
                 <button
-                  onClick={prevImage}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-opacity duration-300 z-10"
+                  onClick={() => prevImage(selectedProject.title)}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/75 transition-opacity duration-300 z-10"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
                 </button>
                 <button
-                  onClick={nextImage}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-opacity duration-300 z-10"
+                  onClick={() => nextImage(selectedProject.title)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/75 transition-opacity duration-300 z-10"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -292,76 +341,58 @@ export default function Projects() {
 
                 {/* Image Counter */}
                 <div className="absolute bottom-4 right-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full z-10">
-                  {currentImageIndex + 1} / {selectedProject.images.length}
+                  {(currentImageIndex[selectedProject.title] || 0) + 1} / {selectedProject.images.length}
                 </div>
 
-                {/* Image Dots Indicator */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
-                  {selectedProject.images.map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        setCurrentImageIndex(index);
-                      }}
-                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        currentImageIndex === index 
-                          ? 'bg-white w-4' 
-                          : 'bg-white/50 hover:bg-white/75'
-                      }`}
-                      aria-label={`Go to image ${index + 1}`}
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {/* Close Button */}
-              <button
-                onClick={() => setSelectedProject(null)}
-                className="absolute top-4 right-4 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-
-            <div className="p-6">
-              <div className="flex justify-between items-start mb-4">
-                <div>
-                  <h2 className="text-2xl font-bold gradient-text">{selectedProject.title}</h2>
-                  <span className="inline-block bg-yellow-500 text-black px-3 py-1 rounded-full text-sm mt-2">
-                    {selectedProject.category}
-                  </span>
-                </div>
+                {/* Close Button */}
                 <button
-                  onClick={() => openInGoogleMaps(selectedProject.details.coordinates)}
-                  className="flex items-center gradient-yellow hover:text-yellow-700"
+                  onClick={() => setSelectedProject(null)}
+                  className="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/75"
                 >
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
-                  View on Map
                 </button>
               </div>
 
-              <p className="text-gray-600 mb-6">{selectedProject.description}</p>
+              <div className="p-6">
+                <div className="flex justify-between items-start mb-4">
+                  <div>
+                    <h2 className="text-2xl font-bold text-white">{selectedProject.title}</h2>
+                    <span className="inline-block bg-yellow-500 text-black px-3 py-1 rounded-full text-sm mt-2">
+                      {selectedProject.category}
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => openInGoogleMaps(selectedProject.details.coordinates)}
+                    className="flex items-center text-yellow-500 hover:text-yellow-400"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                    </svg>
+                    View on Map
+                  </button>
+                </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div>
-                  <p className="font-semibold gradient-text">Location</p>
-                  <p className="text-gray-600">{selectedProject.details.location}</p>
-                </div>
-                <div>
-                  <p className="font-semibold gradient-text">Duration</p>
-                  <p className="text-gray-600">{selectedProject.details.duration}</p>
-                </div>
-                <div>
-                  <p className="font-semibold gradient-text">Size</p>
-                  <p className="text-gray-600">{selectedProject.details.size}</p>
-                </div>
-                <div>
-                  <p className="font-semibold gradient-text">Completed</p>
-                  <p className="text-gray-600">{selectedProject.details.completed}</p>
+                <p className="text-gray-300 mb-6 h-[96px] line-clamp-4">{selectedProject.description}</p>
+
+                <div className="grid grid-cols-2 gap-6 text-sm">
+                  <div className="h-[60px]">
+                    <p className="font-semibold text-yellow-500">Location</p>
+                    <p className="text-gray-300 line-clamp-2">{selectedProject.details.location}</p>
+                  </div>
+                  <div className="h-[60px]">
+                    <p className="font-semibold text-yellow-500">Duration</p>
+                    <p className="text-gray-300 line-clamp-2">{selectedProject.details.duration}</p>
+                  </div>
+                  <div className="h-[60px]">
+                    <p className="font-semibold text-yellow-500">Size</p>
+                    <p className="text-gray-300 line-clamp-2">{selectedProject.details.size}</p>
+                  </div>
+                  <div className="h-[60px]">
+                    <p className="font-semibold text-yellow-500">Completed</p>
+                    <p className="text-gray-300 line-clamp-2">{selectedProject.details.completed}</p>
+                  </div>
                 </div>
               </div>
             </div>

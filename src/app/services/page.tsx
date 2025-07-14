@@ -49,50 +49,66 @@ export default function Services() {
         'Plumbing Materials',
         'Electrical Supplies'
       ]
+    },
+    {
+      title: 'Sustainable Building',
+      description: 'Specialized in eco-friendly construction practices and sustainable building solutions for environmentally conscious projects.',
+      image: 'https://images.unsplash.com/photo-1446630073557-fca43d580fbe?q=80&w=2070',
+      features: [
+        'Solar Panel Installation',
+        'Green Building Materials',
+        'Energy Efficient Systems',
+        'LEED Certification',
+        'Waste Reduction Plans'
+      ]
+    },
+    {
+      title: 'Project Management',
+      description: 'Comprehensive project management services ensuring seamless execution from planning to completion with expert coordination.',
+      image: 'https://images.unsplash.com/photo-1507207611509-ec012433ff52?q=80&w=2070',
+      features: [
+        'Timeline Planning',
+        'Budget Management',
+        'Contractor Coordination',
+        'Quality Control',
+        'Progress Monitoring'
+      ]
     }
   ]
 
   return (
-    <div className="py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-center mb-12">Our Services</h1>
+    <div className="py-16">
+      <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 className="text-3xl font-bold text-center mb-16 gradient-heading">Our Services</h1>
         
-        <div className="space-y-16">
-          {services.map((service, index) => (
-            <div key={service.title} className={`flex flex-col md:flex-row gap-8 ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}>
-              <div className="flex-1">
-                <div className="relative h-[400px] rounded-lg overflow-hidden shadow-lg">
-                  <Image
-                    src={service.image}
-                    alt={service.title}
-                    fill
-                    className="object-cover rounded-lg"
-                  />
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          {services.map((service) => (
+            <div 
+              key={service.title} 
+              className="backdrop-blur-md bg-white/10 rounded-lg overflow-hidden shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:scale-[1.02] border border-white/20"
+            >
+              <div className="relative h-[250px] md:h-[280px]">
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
               </div>
-              <div className="flex-1 flex flex-col justify-center">
-                <div className={`backdrop-blur-sm p-8 rounded-lg border border-white/20 shadow-xl ${
-                  service.title === 'Residential Construction' 
-                    ? 'bg-gradient-to-r from-orange-900/30 to-orange-800/30'
-                    : service.title === 'Commercial Construction'
-                    ? 'bg-gradient-to-r from-blue-900/30 to-blue-800/30'
-                    : service.title === 'Renovation Services'
-                    ? 'bg-gradient-to-r from-green-900/30 to-green-800/30'
-                    : 'bg-gradient-to-r from-yellow-900/30 to-yellow-800/30'
-                }`}>
-                  <h2 className="text-2xl font-bold mb-4 text-white">{service.title}</h2>
-                  <p className="text-gray-200 text-base mb-6">{service.description}</p>
-                  <ul className="space-y-3">
-                    {service.features.map((feature) => (
-                      <li key={feature} className="flex items-center text-gray-200">
-                        <svg className="h-6 w-6 text-yellow-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                        </svg>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <div className="p-8">
+                <h2 className="text-2xl font-bold mb-4 text-white">{service.title}</h2>
+                <p className="text-gray-300 text-base mb-6 h-[72px] line-clamp-3">{service.description}</p>
+                <ul className="space-y-3">
+                  {service.features.map((feature) => (
+                    <li key={feature} className="flex items-center text-gray-300">
+                      <svg className="h-5 w-5 text-yellow-500 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span className="text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           ))}

@@ -174,49 +174,50 @@ const Navbar = () => {
       {/* Mobile Navigation Menu - Sliding from right */}
       <div 
         className={`
-          fixed top-0 right-0 w-64 h-full bg-gray-900 transform transition-transform duration-300 ease-in-out z-50
+          fixed top-0 right-0 w-64 h-full transform transition-transform duration-300 ease-in-out z-50
+          bg-[#0f1729]
           ${isOpen ? 'translate-x-0' : 'translate-x-full'}
         `}
       >
-        <div className="px-4 pt-20 pb-3 space-y-1">
+        <div className="px-4 pt-20 pb-3 space-y-1 bg-[#0f1729]">
           <Link
             href="/"
-            className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 ${isActive('/')}`}
+            className={`block px-3 py-2 rounded-md text-base font-medium bg-[#0f1729] hover:bg-gray-700 ${isActive('/')}`}
             onClick={toggleMenu}
           >
             Home
           </Link>
           <Link
             href="/services"
-            className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 ${isActive('/services')}`}
+            className={`block px-3 py-2 rounded-md text-base font-medium bg-[#0f1729] hover:bg-gray-700 ${isActive('/services')}`}
             onClick={toggleMenu}
           >
             Services
           </Link>
           <Link
             href="/projects"
-            className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 ${isActive('/projects')}`}
+            className={`block px-3 py-2 rounded-md text-base font-medium bg-[#0f1729] hover:bg-gray-700 ${isActive('/projects')}`}
             onClick={toggleMenu}
           >
             Projects
           </Link>
           <Link
             href="/about"
-            className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 ${isActive('/about')}`}
+            className={`block px-3 py-2 rounded-md text-base font-medium bg-[#0f1729] hover:bg-gray-700 ${isActive('/about')}`}
             onClick={toggleMenu}
           >
             About
           </Link>
           <Link
             href="/contact"
-            className={`block px-3 py-2 rounded-md text-base font-medium hover:bg-gray-700 ${isActive('/contact')}`}
+            className={`block px-3 py-2 rounded-md text-base font-medium bg-[#0f1729] hover:bg-gray-700 ${isActive('/contact')}`}
             onClick={toggleMenu}
           >
             Contact
           </Link>
         </div>
         {/* Mobile Social Links */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-700">
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-700 bg-[#0f1729]">
           <div className="flex items-center space-x-4">
             <Link
               href={socialLinks.facebook}
