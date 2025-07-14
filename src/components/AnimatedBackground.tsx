@@ -11,7 +11,10 @@ const AnimatedBackground = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', {
+      willReadFrequently: true,
+      alpha: true
+    });
     if (!ctx) return;
 
     let animationFrameId: number;
@@ -25,6 +28,7 @@ const AnimatedBackground = () => {
       type: 'dot' | 'blueprint' | 'ruler' | 'compass' | 'protractor';
       rotation: number;
       rotationSpeed: number;
+      color: string;
     }> = [];
 
     const initCanvas = () => {
@@ -32,14 +36,15 @@ const AnimatedBackground = () => {
       canvas.height = window.innerHeight;
     };
 
-    const drawBlueprint = (x: number, y: number, size: number, rotation: number) => {
+    const drawBlueprint = (x: number, y: number, size: number, rotation: number, color: string) => {
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(rotation);
       
-      // Draw grid lines
-      ctx.strokeStyle = 'rgba(153, 12, 12, 0.9)';
-      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = 'rgba(131, 20, 20, 0.95)';
+      ctx.lineWidth = 1;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 15;
       
       const gridSize = size * 2;
       for (let i = -gridSize; i <= gridSize; i += 5) {
@@ -57,13 +62,15 @@ const AnimatedBackground = () => {
       ctx.restore();
     };
 
-    const drawRuler = (x: number, y: number, size: number, rotation: number) => {
+    const drawRuler = (x: number, y: number, size: number, rotation: number, color: string) => {
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(rotation);
       
       ctx.strokeStyle = 'rgba(131, 20, 20, 0.95)';
       ctx.lineWidth = 1;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 15;
       
       // Draw main ruler line
       ctx.beginPath();
@@ -83,13 +90,15 @@ const AnimatedBackground = () => {
       ctx.restore();
     };
 
-    const drawCompass = (x: number, y: number, size: number, rotation: number) => {
+    const drawCompass = (x: number, y: number, size: number, rotation: number, color: string) => {
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(rotation);
       
       ctx.strokeStyle = 'rgba(131, 20, 20, 0.95)';
       ctx.lineWidth = 1;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 15;
       
       // Draw compass circle
       ctx.beginPath();
@@ -113,13 +122,15 @@ const AnimatedBackground = () => {
       ctx.restore();
     };
 
-    const drawProtractor = (x: number, y: number, size: number, rotation: number) => {
+    const drawProtractor = (x: number, y: number, size: number, rotation: number, color: string) => {
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(rotation);
       
       ctx.strokeStyle = 'rgba(131, 20, 20, 0.95)';
       ctx.lineWidth = 1;
+      ctx.shadowColor = color;
+      ctx.shadowBlur = 15;
       
       // Draw protractor arc
       ctx.beginPath();
@@ -143,10 +154,23 @@ const AnimatedBackground = () => {
       ctx.restore();
     };
 
+    const getNeonColor = () => {
+      const colors = [
+        'rgba(0, 255, 255, 0.6)',  // Cyan
+        'rgba(255, 0, 255, 0.6)',  // Magenta
+        'rgba(0, 255, 0, 0.6)',    // Green
+        'rgba(255, 255, 0, 0.6)',  // Yellow
+        'rgba(255, 128, 0, 0.6)'   // Orange
+      ];
+      return colors[Math.floor(Math.random() * colors.length)];
+    };
+
     const createParticles = () => {
       particles = [];
-      const types: Array<'dot' | 'blueprint' | 'ruler' | 'compass' | 'protractor'> = ['dot', 'blueprint', 'ruler', 'compass', 'protractor'];
-      const particleCount = Math.min(50, Math.floor((window.innerWidth * window.innerHeight) / 25000));
+      const types: Array<'dot' | 'blueprint' | 'ruler' | 'compass' | 'protractor'> = [
+        'dot', 'blueprint', 'ruler', 'compass', 'protractor'
+      ];
+      const particleCount = Math.min(30, Math.floor((window.innerWidth * window.innerHeight) / 40000));
       
       for (let i = 0; i < particleCount; i++) {
         const type = types[Math.floor(Math.random() * types.length)];
@@ -154,47 +178,43 @@ const AnimatedBackground = () => {
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
           size: type === 'dot' ? Math.random() * 2 : 15 + Math.random() * 10,
-          speedX: (Math.random() - 0.5) * 0.5,
-          speedY: (Math.random() - 0.5) * 0.5,
-          opacity: Math.random() * 0.3 + 0.7, // Higher opacity range: 0.7-1.0
+          speedX: (Math.random() - 0.5) * 0.2,
+          speedY: (Math.random() - 0.5) * 0.2,
+          opacity: Math.random() * 0.3 + 0.7,
           type,
           rotation: Math.random() * Math.PI * 2,
-          rotationSpeed: (Math.random() - 0.5) * 0.02
+          rotationSpeed: (Math.random() - 0.5) * 0.01,
+          color: getNeonColor()
         });
       }
     };
 
     const drawParticle = (particle: typeof particles[0]) => {
+      ctx.globalAlpha = particle.opacity;
+      
       switch (particle.type) {
         case 'blueprint':
-          drawBlueprint(particle.x, particle.y, particle.size, particle.rotation);
+          drawBlueprint(particle.x, particle.y, particle.size, particle.rotation, particle.color);
           break;
         case 'ruler':
-          drawRuler(particle.x, particle.y, particle.size, particle.rotation);
+          drawRuler(particle.x, particle.y, particle.size, particle.rotation, particle.color);
           break;
         case 'compass':
-          drawCompass(particle.x, particle.y, particle.size, particle.rotation);
+          drawCompass(particle.x, particle.y, particle.size, particle.rotation, particle.color);
           break;
         case 'protractor':
-          drawProtractor(particle.x, particle.y, particle.size, particle.rotation);
+          drawProtractor(particle.x, particle.y, particle.size, particle.rotation, particle.color);
           break;
         default:
-          ctx.fillStyle = `rgba(255, 255, 255, ${particle.opacity})`;
+          ctx.fillStyle = particle.color;
+          ctx.shadowColor = particle.color;
+          ctx.shadowBlur = 10;
           ctx.beginPath();
           ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
           ctx.fill();
       }
-    };
-
-    const updateParticle = (particle: typeof particles[0]) => {
-      particle.x += particle.speedX;
-      particle.y += particle.speedY;
-      particle.rotation += particle.rotationSpeed;
-
-      if (particle.x > canvas.width) particle.x = 0;
-      if (particle.x < 0) particle.x = canvas.width;
-      if (particle.y > canvas.height) particle.y = 0;
-      if (particle.y < 0) particle.y = canvas.height;
+      
+      ctx.globalAlpha = 1;
     };
 
     const drawConnections = () => {
@@ -206,7 +226,7 @@ const AnimatedBackground = () => {
 
           if (distance < 150) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(131, 20, 20, ${0.6 * (1 - distance / 150)})`; // Increased connection opacity
+            ctx.strokeStyle = `rgba(131, 20, 20, ${0.6 * (1 - distance / 150)})`;
             ctx.lineWidth = 0.5;
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -214,6 +234,18 @@ const AnimatedBackground = () => {
           }
         }
       });
+    };
+
+    const updateParticle = (particle: typeof particles[0]) => {
+      particle.x += particle.speedX;
+      particle.y += particle.speedY;
+      particle.rotation += particle.rotationSpeed;
+
+      // Wrap around screen edges
+      if (particle.x > canvas.width) particle.x = 0;
+      if (particle.x < 0) particle.x = canvas.width;
+      if (particle.y > canvas.height) particle.y = 0;
+      if (particle.y < 0) particle.y = canvas.height;
     };
 
     const animate = () => {
@@ -253,9 +285,9 @@ const AnimatedBackground = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 -z-10 pointer-events-none"
-      style={{ opacity: 0.75 }} // Increased overall canvas opacity
+      style={{ opacity: 0.75 }}
     />
   );
 };
 
-export default AnimatedBackground; 
+export default AnimatedBackground;
