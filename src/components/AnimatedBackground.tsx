@@ -38,7 +38,7 @@ const AnimatedBackground = () => {
       ctx.rotate(rotation);
       
       // Draw grid lines
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+      ctx.strokeStyle = 'rgba(153, 12, 12, 0.9)';
       ctx.lineWidth = 0.5;
       
       const gridSize = size * 2;
@@ -62,7 +62,7 @@ const AnimatedBackground = () => {
       ctx.translate(x, y);
       ctx.rotate(rotation);
       
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+      ctx.strokeStyle = 'rgba(131, 20, 20, 0.95)';
       ctx.lineWidth = 1;
       
       // Draw main ruler line
@@ -88,7 +88,7 @@ const AnimatedBackground = () => {
       ctx.translate(x, y);
       ctx.rotate(rotation);
       
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+      ctx.strokeStyle = 'rgba(131, 20, 20, 0.95)';
       ctx.lineWidth = 1;
       
       // Draw compass circle
@@ -103,7 +103,7 @@ const AnimatedBackground = () => {
         const textX = Math.cos(angle) * (size + 10);
         const textY = Math.sin(angle) * (size + 10);
         
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.25)';
+        ctx.fillStyle = 'rgba(131, 20, 20, 0.95)';
         ctx.font = '10px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -118,7 +118,7 @@ const AnimatedBackground = () => {
       ctx.translate(x, y);
       ctx.rotate(rotation);
       
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+      ctx.strokeStyle = 'rgba(131, 20, 20, 0.95)';
       ctx.lineWidth = 1;
       
       // Draw protractor arc
@@ -156,7 +156,7 @@ const AnimatedBackground = () => {
           size: type === 'dot' ? Math.random() * 2 : 15 + Math.random() * 10,
           speedX: (Math.random() - 0.5) * 0.5,
           speedY: (Math.random() - 0.5) * 0.5,
-          opacity: Math.random() * 0.7 + 0.2,
+          opacity: Math.random() * 0.3 + 0.7, // Higher opacity range: 0.7-1.0
           type,
           rotation: Math.random() * Math.PI * 2,
           rotationSpeed: (Math.random() - 0.5) * 0.02
@@ -206,7 +206,7 @@ const AnimatedBackground = () => {
 
           if (distance < 150) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(255, 255, 255, ${0.2 * (1 - distance / 150)})`;
+            ctx.strokeStyle = `rgba(131, 20, 20, ${0.6 * (1 - distance / 150)})`; // Increased connection opacity
             ctx.lineWidth = 0.5;
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -253,7 +253,7 @@ const AnimatedBackground = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 -z-10 pointer-events-none"
-      style={{ opacity: 0.25 }}
+      style={{ opacity: 0.75 }} // Increased overall canvas opacity
     />
   );
 };
