@@ -170,7 +170,7 @@ const AnimatedBackground = () => {
       const types: Array<'dot' | 'blueprint' | 'ruler' | 'compass' | 'protractor'> = [
         'dot', 'blueprint', 'ruler', 'compass', 'protractor'
       ];
-      const particleCount = Math.min(30, Math.floor((window.innerWidth * window.innerHeight) / 40000));
+      const particleCount = Math.min(15, Math.floor((window.innerWidth * window.innerHeight) / 80000)); // Reduced from 30 to 15 and increased area per particle
       
       for (let i = 0; i < particleCount; i++) {
         const type = types[Math.floor(Math.random() * types.length)];
@@ -178,12 +178,12 @@ const AnimatedBackground = () => {
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
           size: type === 'dot' ? Math.random() * 2 : 15 + Math.random() * 10,
-          speedX: (Math.random() - 0.5) * 0.2,
-          speedY: (Math.random() - 0.5) * 0.2,
+          speedX: (Math.random() - 0.5) * 0.05, // Reduced from 0.2 to 0.05
+          speedY: (Math.random() - 0.5) * 0.05, // Reduced from 0.2 to 0.05
           opacity: Math.random() * 0.3 + 0.7,
           type,
           rotation: Math.random() * Math.PI * 2,
-          rotationSpeed: (Math.random() - 0.5) * 0.01,
+          rotationSpeed: (Math.random() - 0.5) * 0.002, // Reduced from 0.01 to 0.002
           color: getNeonColor()
         });
       }
@@ -224,10 +224,10 @@ const AnimatedBackground = () => {
           const dy = particle.y - particles[j].y;
           const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 150) {
+          if (distance < 250) { // Increased from 150 to 250 for longer connections
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(65, 105, 225, ${0.8 * (1 - distance / 150)})`; // Royal Blue with higher opacity
-            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = `rgba(65, 105, 225, ${1 * (1 - distance / 250)})`; // Increased opacity from 0.8 to 1
+            ctx.lineWidth = 1; // Increased from 0.5 to 1 for more visible lines
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(particles[j].x, particles[j].y);
             ctx.stroke();
@@ -257,7 +257,10 @@ const AnimatedBackground = () => {
       });
 
       drawConnections();
-      animationFrameId = requestAnimationFrame(animate);
+      // Add frame throttling to reduce CPU usage
+      setTimeout(() => {
+        animationFrameId = requestAnimationFrame(animate);
+      }, 1000 / 30); // Cap at 30 FPS
     };
 
     const handleResize = () => {
