@@ -41,7 +41,7 @@ const AnimatedBackground = () => {
       ctx.translate(x, y);
       ctx.rotate(rotation);
       
-      ctx.strokeStyle = 'rgba(131, 20, 20, 0.95)';
+      ctx.strokeStyle = 'rgba(65, 105, 225, 0.95)'; // Royal Blue
       ctx.lineWidth = 1;
       ctx.shadowColor = color;
       ctx.shadowBlur = 15;
@@ -67,7 +67,7 @@ const AnimatedBackground = () => {
       ctx.translate(x, y);
       ctx.rotate(rotation);
       
-      ctx.strokeStyle = 'rgba(131, 20, 20, 0.95)';
+      ctx.strokeStyle = 'rgba(147, 112, 219, 0.95)'; // Medium Purple
       ctx.lineWidth = 1;
       ctx.shadowColor = color;
       ctx.shadowBlur = 15;
@@ -95,7 +95,7 @@ const AnimatedBackground = () => {
       ctx.translate(x, y);
       ctx.rotate(rotation);
       
-      ctx.strokeStyle = 'rgba(131, 20, 20, 0.95)';
+      ctx.strokeStyle = 'rgba(147, 112, 219, 0.95)'; // Medium Purple
       ctx.lineWidth = 1;
       ctx.shadowColor = color;
       ctx.shadowBlur = 15;
@@ -112,7 +112,7 @@ const AnimatedBackground = () => {
         const textX = Math.cos(angle) * (size + 10);
         const textY = Math.sin(angle) * (size + 10);
         
-        ctx.fillStyle = 'rgba(131, 20, 20, 0.95)';
+        ctx.fillStyle = 'rgba(147, 112, 219, 0.95)'; // Medium Purple
         ctx.font = '10px Arial';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -156,11 +156,11 @@ const AnimatedBackground = () => {
 
     const getNeonColor = () => {
       const colors = [
-        'rgba(0, 255, 255, 0.6)',  // Cyan
-        'rgba(255, 0, 255, 0.6)',  // Magenta
-        'rgba(0, 255, 0, 0.6)',    // Green
-        'rgba(255, 255, 0, 0.6)',  // Yellow
-        'rgba(255, 128, 0, 0.6)'   // Orange
+        'rgba(65, 105, 225, 0.95)',  // Royal Blue
+        'rgba(147, 112, 219, 0.95)', // Medium Purple
+        'rgba(138, 43, 226, 0.95)',  // Blue Violet
+        'rgba(75, 0, 130, 0.95)',    // Indigo
+        'rgba(106, 90, 205, 0.95)'   // Slate Blue
       ];
       return colors[Math.floor(Math.random() * colors.length)];
     };
@@ -226,7 +226,7 @@ const AnimatedBackground = () => {
 
           if (distance < 150) {
             ctx.beginPath();
-            ctx.strokeStyle = `rgba(131, 20, 20, ${0.6 * (1 - distance / 150)})`;
+            ctx.strokeStyle = `rgba(65, 105, 225, ${0.8 * (1 - distance / 150)})`; // Royal Blue with higher opacity
             ctx.lineWidth = 0.5;
             ctx.moveTo(particle.x, particle.y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -285,7 +285,7 @@ const AnimatedBackground = () => {
     <canvas
       ref={canvasRef}
       className="fixed inset-0 -z-10 pointer-events-none"
-      style={{ opacity: 0.75 }}
+      style={{ opacity: 0.9 }}
     />
   );
 };
