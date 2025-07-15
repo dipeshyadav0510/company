@@ -16,7 +16,7 @@ const WhatsAppButton = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-4 right-4 z-50 flex items-end">
+    <div className="fixed bottom-4 right-4 z-50 hidden md:flex items-end">
       {/* Message Bubble */}
       {isVisible && (
         <div className="mr-4 mb-2 bg-white rounded-lg shadow-lg p-4 max-w-[250px] relative">
