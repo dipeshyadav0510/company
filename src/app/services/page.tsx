@@ -41,7 +41,7 @@ export default function Services() {
     {
       title: 'Construction Material Supply',
       description: 'We provide high-quality construction materials for all your building needs, ensuring timely delivery and competitive pricing.',
-      image: 'https://images.unsplash.com/photo-1590644178374-fb40b06b6860?q=80&w=2070',
+      image: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=2070',
       features: [
         'Cement & Aggregates',
         'Steel & Metal Products',
@@ -53,7 +53,7 @@ export default function Services() {
     {
       title: 'Sustainable Building',
       description: 'Specialized in eco-friendly construction practices and sustainable building solutions for environmentally conscious projects.',
-      image: 'https://images.unsplash.com/photo-1446630073557-fca43d580fbe?q=80&w=2070',
+      image: 'https://images.unsplash.com/photo-1524207874394-5ec7c8c8e1a6?q=80&w=2070',
       features: [
         'Solar Panel Installation',
         'Green Building Materials',
@@ -77,9 +77,9 @@ export default function Services() {
   ]
 
   return (
-    <div className="py-16">
+    <div className="py-12">
       <div className="max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-bold text-center mb-16 gradient-heading">Our Services</h1>
+        <h1 className="text-3xl font-bold text-center mb-12 gradient-heading">Our Services</h1>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           {services.map((service) => (

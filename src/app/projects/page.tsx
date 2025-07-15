@@ -72,9 +72,9 @@ export default function Projects() {
       category: 'Commercial',
       description: 'A state-of-the-art office complex featuring sustainable design and smart building technology.',
       images: [
-        'https://images.unsplash.com/photo-1554469384-e58fac16e23a?q=80&w=2071',
-        'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069',
-        'https://images.unsplash.com/photo-1497366811353-6870744d04b2?q=80&w=2070',
+        'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070',
+        'https://images.unsplash.com/photo-1464938050520-ef2270bb8ce8?q=80&w=2070',
+        'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070',
       ],
       details: {
         location: 'Downtown Business District',
@@ -106,9 +106,9 @@ export default function Projects() {
       category: 'Renovation',
       description: 'Careful restoration of a 100-year-old building while preserving its historic character.',
       images: [
-        'https://images.unsplash.com/photo-1582407947304-fd86f028f716?q=80&w=2072',
-        'https://images.unsplash.com/photo-1582407947200-13e9c44dd819?q=80&w=2070',
-        'https://images.unsplash.com/photo-1582407947333-5e879c0c607a?q=80&w=2070',
+        'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2070',
+        'https://images.unsplash.com/photo-1600573472591-ee6a8e536a68?q=80&w=2070',
+        'https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=2070',
       ],
       details: {
         location: 'Heritage District',
@@ -123,9 +123,9 @@ export default function Projects() {
       category: 'Commercial',
       description: 'Modern retail complex with sustainable features and ample parking.',
       images: [
-        'https://images.unsplash.com/photo-1567449303078-57ad995bd17f?q=80&w=2070',
-        'https://images.unsplash.com/photo-1567449304552-5b82044a5310?q=80&w=2070',
-        'https://images.unsplash.com/photo-1567449303183-ae0d6ed1d100?q=80&w=2070',
+        'https://images.unsplash.com/photo-1519567770579-c2fc5c9b6d14?q=80&w=2070',
+        'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070',
+        'https://images.unsplash.com/photo-1580541631950-7282082b03fe?q=80&w=2070',
       ],
       details: {
         location: 'City Center',

@@ -34,7 +34,7 @@ export default function RootLayout({
           <div className="sticky top-0 left-0 right-0 z-50 bg-gray-900/80 backdrop-blur-md border-b border-gray-800">
             <Navbar />
           </div>
-          <main className="flex-grow pt-3">
+          <main className="flex-grow pt-1">
             <div className="container mx-auto px-4">
               {children}
             </div>
