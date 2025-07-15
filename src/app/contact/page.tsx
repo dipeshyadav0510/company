@@ -1,8 +1,10 @@
 'use client';
 
-import { useState, FormEvent } from 'react'
+import { useState, FormEvent, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 
 export default function Contact() {
+  const searchParams = useSearchParams();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -11,6 +13,13 @@ export default function Contact() {
     project: '',
     message: ''
   });
+
+  useEffect(() => {
+    const projectType = searchParams.get('project');
+    if (projectType) {
+      setFormData(prev => ({ ...prev, project: projectType }));
+    }
+  }, [searchParams]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

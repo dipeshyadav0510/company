@@ -1,11 +1,21 @@
+'use client';
+
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 export default function Services() {
+  const router = useRouter();
+
+  const handleServiceClick = (projectType: string) => {
+    router.push(`/contact?project=${projectType}`);
+  };
+
   const services = [
     {
       title: 'Residential Construction',
       description: 'From custom homes to renovations, we bring your dream home to life with quality craftsmanship and attention to detail.',
       image: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?q=80&w=2071',
+      projectType: 'residential',
       features: [
         'Custom Home Building',
         'Home Renovations',
@@ -18,6 +28,7 @@ export default function Services() {
       title: 'Commercial Construction',
       description: 'We deliver commercial projects on time and within budget while maintaining the highest standards of quality and safety.',
       image: 'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?q=80&w=2070',
+      projectType: 'commercial',
       features: [
         'Office Buildings',
         'Retail Spaces',
@@ -30,6 +41,7 @@ export default function Services() {
       title: 'Renovation Services',
       description: 'Transform your existing space with our comprehensive renovation services that blend modern design with functionality.',
       image: 'https://images.unsplash.com/photo-1534237710431-e2fc698436d0?q=80&w=2070',
+      projectType: 'renovation',
       features: [
         'Interior Renovations',
         'Exterior Renovations',
@@ -42,6 +54,7 @@ export default function Services() {
       title: 'Construction Material Supply',
       description: 'We provide high-quality construction materials for all your building needs, ensuring timely delivery and competitive pricing.',
       image: 'https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?q=80&w=2070',
+      projectType: 'other',
       features: [
         'Cement & Aggregates',
         'Steel & Metal Products',
@@ -54,6 +67,7 @@ export default function Services() {
       title: 'Sustainable Building',
       description: 'Specialized in eco-friendly construction practices and sustainable building solutions for environmentally conscious projects.',
       image: 'https://images.unsplash.com/photo-1524207874394-5ec7c8c8e1a6?q=80&w=2070',
+      projectType: 'other',
       features: [
         'Solar Panel Installation',
         'Green Building Materials',
@@ -66,6 +80,7 @@ export default function Services() {
       title: 'Project Management',
       description: 'Comprehensive project management services ensuring seamless execution from planning to completion with expert coordination.',
       image: 'https://images.unsplash.com/photo-1507207611509-ec012433ff52?q=80&w=2070',
+      projectType: 'other',
       features: [
         'Timeline Planning',
         'Budget Management',
@@ -85,7 +100,8 @@ export default function Services() {
           {services.map((service) => (
             <div 
               key={service.title} 
-              className="backdrop-blur-md bg-white/10 rounded-lg overflow-hidden shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:scale-[1.02] border border-white/20"
+              className="backdrop-blur-md bg-white/10 rounded-lg overflow-hidden shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:scale-[1.02] border border-white/20 cursor-pointer"
+              onClick={() => handleServiceClick(service.projectType)}
             >
               <div className="relative h-[250px] md:h-[280px]">
                 <Image

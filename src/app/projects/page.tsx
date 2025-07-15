@@ -123,9 +123,9 @@ export default function Projects() {
       category: 'Commercial',
       description: 'Modern retail complex with sustainable features and ample parking.',
       images: [
-        'https://images.unsplash.com/photo-1519567770579-c2fc5c9b6d14?q=80&w=2070',
-        'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070',
-        'https://images.unsplash.com/photo-1580541631950-7282082b03fe?q=80&w=2070',
+        'https://images.unsplash.com/photo-1565538420870-da08ff96a207?q=80&w=2070',
+        'https://images.unsplash.com/photo-1555636222-cae831e670b3?q=80&w=2070',
+        'https://images.unsplash.com/photo-1601924582970-9238bcb495d9?q=80&w=2070',
       ],
       details: {
         location: 'City Center',
