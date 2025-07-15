@@ -63,7 +63,7 @@ export default function About() {
           <h1 className="text-3xl font-bold text-center mb-12 text-white">About Our Company</h1>
           
           <div className="grid md:grid-cols-2 gap-8 items-stretch">
-            <div className="relative h-[350px] rounded-lg overflow-hidden">
+            <div className="relative h-[500px] rounded-lg overflow-hidden">
               <Image
                 src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=2070"
                 alt="Company Overview"
@@ -71,13 +71,17 @@ export default function About() {
                 className="object-cover rounded-lg"
               />
             </div>
-            <div className="backdrop-blur-md bg-white/10 p-8 rounded-lg border border-white/20 h-[350px] flex flex-col justify-center">
-              <h2 className="text-2xl font-bold mb-6 text-white">Building Excellence Since 1995</h2>
-              <p className="text-gray-300 text-base mb-6">
+            <div className="backdrop-blur-md bg-[#1a1f2e]/80 p-8 rounded-lg border border-white/20 flex flex-col justify-center">
+              <h2 className="text-4xl font-bold mb-8 text-white">
+                <div>Building</div>
+                <div>Excellence Since</div>
+                <div>1995</div>
+              </h2>
+              <p className="text-gray-300 text-lg mb-8">
                 For over 25 years, Maa Jalapa Construction & Suppliers Pvt. Ltd. has been at the forefront of the construction industry, 
                 delivering exceptional quality and innovation in every project we undertake.
               </p>
-              <p className="text-gray-300">
+              <p className="text-gray-300 text-lg">
                 Our commitment to excellence, sustainable practices, and customer satisfaction has made us 
                 one of the most trusted names in construction.
               </p>
