@@ -8,6 +8,10 @@ const AnimatedBackground = dynamic(() => import('@/components/AnimatedBackground
   ssr: false
 })
 
+const WhatsAppButton = dynamic(() => import('@/components/WhatsAppButton'), {
+  ssr: false
+})
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -39,6 +43,7 @@ export default function RootLayout({
             </div>
           </main>
           <Footer />
+          <WhatsAppButton />
         </div>
       </body>
     </html>

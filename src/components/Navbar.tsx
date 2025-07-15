@@ -175,7 +175,7 @@ const Navbar = () => {
       <div 
         className={`
           fixed top-0 right-0 w-64 h-full transform transition-transform duration-300 ease-in-out z-50
-          bg-[#0f1729]
+          bg-[#0f1729] md:hidden
           ${isOpen ? 'translate-x-0' : 'translate-x-full'}
         `}
       >
