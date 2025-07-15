@@ -17,10 +17,28 @@ const config: Config = {
         'loading-bar': {
           '0%': { transform: 'translateX(-100%)' },
           '100%': { transform: 'translateX(100%)' }
+        },
+        'border-travel': {
+          '0%': {
+            clipPath: 'inset(0 100% 100% 0)',
+          },
+          '25%': {
+            clipPath: 'inset(0 0 100% 0)',
+          },
+          '50%': {
+            clipPath: 'inset(0 0 0 0)',
+          },
+          '75%': {
+            clipPath: 'inset(100% 0 0 0)',
+          },
+          '100%': {
+            clipPath: 'inset(0 100% 100% 0)',
+          }
         }
       },
       animation: {
-        'loading-bar': 'loading-bar 1.5s ease-in-out infinite'
+        'loading-bar': 'loading-bar 1.5s ease-in-out infinite',
+        'border-travel': 'border-travel 2s ease-in-out infinite'
       }
     },
   },

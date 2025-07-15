@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation'
 function ContactForm() {
   const searchParams = useSearchParams();
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showAnimation, setShowAnimation] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,6 +19,12 @@ function ContactForm() {
     const projectType = searchParams.get('project');
     if (projectType) {
       setFormData(prev => ({ ...prev, project: projectType }));
+      setShowAnimation(true);
+      // Reset animation after it completes one cycle
+      const timer = setTimeout(() => {
+        setShowAnimation(false);
+      }, 2000); // Match this with the animation duration in tailwind.config.ts
+      return () => clearTimeout(timer);
     }
   }, [searchParams]);
 
@@ -101,19 +108,26 @@ function ContactForm() {
                   <label htmlFor="project" className="block text-sm font-medium text-white mb-2">
                     Project Type
                   </label>
-                  <select
-                    id="project"
-                    required
-                    className="w-full px-4 py-2 rounded-md bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
-                    value={formData.project}
-                    onChange={(e) => setFormData({ ...formData, project: e.target.value })}
-                  >
-                    <option value="" className="bg-gray-900">Select a project type</option>
-                    <option value="residential" className="bg-gray-900">Residential Construction</option>
-                    <option value="commercial" className="bg-gray-900">Commercial Construction</option>
-                    <option value="renovation" className="bg-gray-900">Renovation</option>
-                    <option value="other" className="bg-gray-900">Other</option>
-                  </select>
+                  <div className="relative">
+                    {showAnimation && (
+                      <div className="absolute inset-0 rounded-md">
+                        <div className="absolute inset-0 rounded-md border-2 border-transparent before:absolute before:inset-0 before:rounded-md before:border-2 before:border-yellow-500 before:animate-border-travel"></div>
+                      </div>
+                    )}
+                    <select
+                      id="project"
+                      required
+                      className="relative w-full px-4 py-2 rounded-md bg-white/5 border border-white/10 text-white focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      value={formData.project}
+                      onChange={(e) => setFormData({ ...formData, project: e.target.value })}
+                    >
+                      <option value="" className="bg-gray-900">Select a project type</option>
+                      <option value="residential" className="bg-gray-900">Residential Construction</option>
+                      <option value="commercial" className="bg-gray-900">Commercial Construction</option>
+                      <option value="renovation" className="bg-gray-900">Renovation</option>
+                      <option value="other" className="bg-gray-900">Other</option>
+                    </select>
+                  </div>
                 </div>
 
                 <div>
