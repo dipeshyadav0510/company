@@ -8,17 +8,14 @@ interface ProjectDetails {
   duration: string;
   size: string;
   completed: string;
-  coordinates: {
-    lat: number;
-    lng: number;
-  };
+  coordinates: { lat: number; lng: number; };
 }
 
 interface Project {
   title: string;
-  category: string;
   description: string;
   images: string[];
+  category: string;
   details: ProjectDetails;
 }
 
@@ -29,15 +26,30 @@ export default function Projects() {
   const [touchEnd, setTouchEnd] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [visibleCards, setVisibleCards] = useState<number[]>([]);
 
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
     window.addEventListener('resize', checkMobile);
+
     return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    // Stagger the appearance of project cards
+    const showCards = () => {
+      projects.forEach((_, index) => {
+        setTimeout(() => {
+          setVisibleCards(prev => [...prev, index]);
+        }, index * 200); // Each card appears 200ms after the previous one
+      });
+    };
+
+    showCards();
   }, []);
 
   const handleTouchStart = (e: TouchEvent) => {
@@ -200,10 +212,12 @@ export default function Projects() {
         <h1 className="text-3xl font-bold text-center mb-12 gradient-heading">Our Projects</h1>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project) => (
+          {projects.map((project, index) => (
             <div 
               key={project.title} 
-              className="backdrop-blur-md bg-white/10 rounded-lg overflow-hidden shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:scale-[1.02] cursor-pointer border border-white/20"
+              className={`backdrop-blur-md bg-white/10 rounded-lg overflow-hidden shadow-lg transition-all duration-500 ease-in-out hover:shadow-2xl hover:scale-[1.02] cursor-pointer border border-white/20 ${
+                visibleCards.includes(index) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              }`}
               onClick={() => {
                 if (!isMobile) {
                   setSelectedProject(project);

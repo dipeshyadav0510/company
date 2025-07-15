@@ -2,9 +2,24 @@
 
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useState, useEffect } from 'react'
 
 export default function Services() {
   const router = useRouter();
+  const [visibleCards, setVisibleCards] = useState<number[]>([]);
+
+  useEffect(() => {
+    // Stagger the appearance of service cards
+    const showCards = () => {
+      services.forEach((_, index) => {
+        setTimeout(() => {
+          setVisibleCards(prev => [...prev, index]);
+        }, index * 200); // Reduced from 500ms to 200ms between each card
+      });
+    };
+
+    showCards();
+  }, []);
 
   const handleServiceClick = (projectType: string) => {
     router.push(`/contact?project=${projectType}`);
@@ -97,10 +112,12 @@ export default function Services() {
         <h1 className="text-3xl font-bold text-center mb-12 gradient-heading">Our Services</h1>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-          {services.map((service) => (
+          {services.map((service, index) => (
             <div 
               key={service.title} 
-              className="backdrop-blur-md bg-white/10 rounded-lg overflow-hidden shadow-lg transition-all duration-300 ease-in-out hover:shadow-2xl hover:scale-[1.02] border border-white/20 cursor-pointer"
+              className={`backdrop-blur-md bg-white/10 rounded-lg overflow-hidden shadow-lg transition-all duration-500 ease-in-out hover:shadow-2xl hover:scale-[1.02] border border-white/20 cursor-pointer ${
+                visibleCards.includes(index) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+              }`}
               onClick={() => handleServiceClick(service.projectType)}
             >
               <div className="relative h-[250px] md:h-[280px]">
