@@ -2,15 +2,7 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
-import dynamic from 'next/dynamic'
-
-const AnimatedBackground = dynamic(() => import('@/components/AnimatedBackground'), {
-  ssr: false
-})
-
-const WhatsAppButton = dynamic(() => import('@/components/WhatsAppButton'), {
-  ssr: false
-})
+import DynamicComponents from '@/components/DynamicComponents'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} min-h-screen bg-gray-900`}>
-        <AnimatedBackground />
+        <DynamicComponents />
         
         {/* Content */}
         <div className="relative min-h-screen flex flex-col">
@@ -40,7 +32,6 @@ export default function RootLayout({
             </div>
           </main>
           <Footer />
-          <WhatsAppButton />
         </div>
       </body>
     </html>
