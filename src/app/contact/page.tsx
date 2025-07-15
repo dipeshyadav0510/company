@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, FormEvent, useEffect } from 'react'
+import { useState, FormEvent, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 
-export default function Contact() {
+function ContactForm() {
   const searchParams = useSearchParams();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
@@ -177,5 +177,17 @@ export default function Contact() {
         </div>
       </div>
     </div>
-  )
+  );
+}
+
+export default function Contact() {
+  return (
+    <Suspense fallback={
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-yellow-500"></div>
+      </div>
+    }>
+      <ContactForm />
+    </Suspense>
+  );
 } 
