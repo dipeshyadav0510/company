@@ -45,37 +45,43 @@ export default function Home() {
       {/* Company Greatness Section */}
       <div className="w-full py-16 bg-gradient-to-b from-transparent to-black/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <TypeWriter 
-              text="Building Tomorrow's Legacy Today"
-              className="text-4xl md:text-5xl font-bold text-white mb-6 h-[3.5rem]"
-              onHalfway={() => setShowFirstContent(true)}
-            />
-            <div className={`transition-opacity duration-1000 ${showFirstContent ? 'opacity-100' : 'opacity-0'}`}>
-              <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <div className="flex flex-col items-center">
+            {/* Heading Container */}
+            <div className="w-full text-center mb-6">
+              <TypeWriter 
+                text="Building Tomorrow's Legacy Today"
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white"
+                onHalfway={() => setShowFirstContent(true)}
+              />
+            </div>
+
+            {/* Description Container */}
+            <div className={`w-full transition-opacity duration-1000 ${showFirstContent ? 'opacity-100' : 'opacity-0'}`}>
+              <p className="text-xl md:text-2xl text-gray-300 text-center max-w-3xl mx-auto mb-16">
                 At Maa Jalapa Construction, we combine decades of expertise with innovative solutions to create structures that stand the test of time.
               </p>
             </div>
-          </div>
 
-          <div className={`transition-opacity duration-1000 ${showFirstContent ? 'opacity-100' : 'opacity-0'}`}>
-            <div className="grid md:grid-cols-3 gap-8">
-              {achievements.map((achievement, index) => (
-                <div 
-                  key={index}
-                  className="backdrop-blur-md bg-white/10 p-8 rounded-lg border border-white/20 text-center transition-all duration-300 hover:transform hover:scale-105"
-                >
-                  <div className="text-yellow-500 mb-4 flex justify-center">
-                    {achievement.icon}
+            {/* Achievement Cards */}
+            <div className={`w-full transition-opacity duration-1000 ${showFirstContent ? 'opacity-100' : 'opacity-0'}`}>
+              <div className="grid md:grid-cols-3 gap-8">
+                {achievements.map((achievement, index) => (
+                  <div 
+                    key={index}
+                    className="backdrop-blur-md bg-white/10 p-8 rounded-lg border border-white/20 text-center transition-all duration-300 hover:transform hover:scale-105"
+                  >
+                    <div className="text-yellow-500 mb-4 flex justify-center">
+                      {achievement.icon}
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-3">
+                      {achievement.title}
+                    </h3>
+                    <p className="text-gray-300">
+                      {achievement.description}
+                    </p>
                   </div>
-                  <h3 className="text-xl font-bold text-white mb-3">
-                    {achievement.title}
-                  </h3>
-                  <p className="text-gray-300">
-                    {achievement.description}
-                  </p>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -83,30 +89,41 @@ export default function Home() {
 
       {/* CTA Section */}
       <div className="w-full py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <TypeWriter 
-            text="Ready to Start Your Project?"
-            className="text-4xl md:text-5xl font-bold text-white mb-6 h-[3.5rem]"
-            onHalfway={() => setShowSecondContent(true)}
-            delay={0} // Start at the same time as the first heading
-          />
-          <div className={`transition-opacity duration-1000 ${showSecondContent ? 'opacity-100' : 'opacity-0'}`}>
-            <p className="text-gray-300 mb-12 max-w-2xl mx-auto text-lg">
-              Let's work together to bring your construction vision to life. Our team is ready to help you with your next project.
-            </p>
-            <div className="flex justify-center gap-6">
-              <Link 
-                href="/projects"
-                className="bg-transparent border-2 border-yellow-500 text-yellow-500 px-8 py-4 rounded-md font-bold hover:bg-yellow-500 hover:text-black transition-all duration-300 text-lg"
-              >
-                View Projects
-              </Link>
-              <Link 
-                href="/contact"
-                className="bg-yellow-500 text-black px-8 py-4 rounded-md font-bold hover:bg-yellow-400 transition-all duration-300 text-lg"
-              >
-                Get in Touch
-              </Link>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center">
+            {/* CTA Heading Container */}
+            <div className="w-full text-center mb-6">
+              <TypeWriter 
+                text="Ready to Start Your Project?"
+                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white"
+                onHalfway={() => setShowSecondContent(true)}
+                delay={0}
+              />
+            </div>
+
+            {/* CTA Description Container */}
+            <div className={`w-full transition-opacity duration-1000 ${showSecondContent ? 'opacity-100' : 'opacity-0'}`}>
+              <p className="text-xl md:text-2xl text-gray-300 text-center max-w-2xl mx-auto mb-12">
+                Let's work together to bring your construction vision to life. Our team is ready to help you with your next project.
+              </p>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className={`transition-opacity duration-1000 ${showSecondContent ? 'opacity-100' : 'opacity-0'}`}>
+              <div className="flex flex-col sm:flex-row justify-center gap-6">
+                <Link 
+                  href="/projects"
+                  className="bg-transparent border-2 border-yellow-500 text-yellow-500 px-8 py-4 rounded-md font-bold hover:bg-yellow-500 hover:text-black transition-all duration-300 text-lg"
+                >
+                  View Projects
+                </Link>
+                <Link 
+                  href="/contact"
+                  className="bg-yellow-500 text-black px-8 py-4 rounded-md font-bold hover:bg-yellow-400 transition-all duration-300 text-lg"
+                >
+                  Get in Touch
+                </Link>
+              </div>
             </div>
           </div>
         </div>
