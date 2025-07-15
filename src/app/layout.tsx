@@ -27,9 +27,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} min-h-screen bg-gray-900`}>
-        {/* Background Elements */}
-        <div className="fixed inset-0 -z-30 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gray-700 via-gray-900 to-black"></div>
-        <div className="fixed inset-0 -z-20 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[length:32px_32px]"></div>
         <AnimatedBackground />
         
         {/* Content */}
