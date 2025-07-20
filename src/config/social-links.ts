@@ -8,7 +8,7 @@ interface SocialLinks {
 export const socialLinks: SocialLinks = {
   facebook: 'https://facebook.com/dipeshy923',
   instagram: 'https://instagram.com/dipeshy923',
-  whatsapp: 'https://wa.me/9779841234567',
+  whatsapp: 'https://wa.me/9779841875456',
   viber: 'viber://chat?number=+9779841234567'
 }
 
