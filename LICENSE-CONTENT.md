@@ -1,6 +1,6 @@
 # Content and Assets License
 
-Copyright (c) 2025 [Maa Jalapa Construction Supplier And Builders Pvt. Ltd.]
+Copyright (c) 2025 Maa Jalapa Construction Supplier And Builders Pvt. Ltd.
 
 ## NOT Licensed Under MIT
 
