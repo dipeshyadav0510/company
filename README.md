@@ -255,9 +255,9 @@ Create a `.env.local` file for local development:
 
 ```env
 # Add your environment variables here
-NEXT_PUBLIC_COMPANY_NAME=Maa Jalapa Construction Supplier And Builders Pvt. Ltd.
-NEXT_PUBLIC_CONTACT_EMAIL=maajalapa123@gmail.com
-NEXT_PUBLIC_WHATSAPP_NUMBER=9844004665
+NEXT_PUBLIC_COMPANY_NAME=Your Company Name
+NEXT_PUBLIC_CONTACT_EMAIL=contact@yourcompany.com
+NEXT_PUBLIC_WHATSAPP_NUMBER=1234567890
 ```
 
 ---
