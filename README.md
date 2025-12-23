@@ -17,60 +17,11 @@ A modern, professional company website built with **Next.js**, **TypeScript**, a
 
 ---
 
-## ⚠️ Important Legal Notice
-
-**READ CAREFULLY BEFORE USING THIS CODE**
-
-This repository contains the **source code** for a company website. Please note the following:
-
-### What IS Licensed (MIT License)
-- ✅ The source code and technical implementation
-- ✅ Component structure and architecture
-- ✅ Development setup and configuration files
-
-### What IS NOT Licensed
-- ❌ **Company name, branding, logos, and trademarks** - These remain the exclusive property of the original company
-- ❌ **Business content** - All text, copy, business descriptions, and marketing materials are copyrighted
-- ❌ **Images and media files** - All graphics, photos, and visual assets are proprietary
-- ❌ **Business information** - Company details, services descriptions, contact information, testimonials
-- ❌ **Design elements** - Specific color schemes, layouts, and visual identity tied to the brand
-
-### Your Responsibilities When Forking/Using This Code
-1. **Remove ALL company-specific branding, content, and assets**
-2. **Replace with your own original content and branding**
-3. **Do not impersonate or create confusion with the original company**
-4. **Respect trademark and copyright laws in your jurisdiction**
-5. **Obtain proper licensing for any third-party assets you use**
-
-### Disclaimer
-The MIT License applies ONLY to the code structure and implementation. Using this repository does not grant you any rights to represent, impersonate, or use the intellectual property of the original company. Any misuse may result in legal action.
-
----
-
 ## ✨ Overview
 
 This is a **modern company website** designed to showcase services, projects, and company information with a professional UI and responsive design across all devices. Built with TypeScript for type safety and better developer experience.
 
 **Purpose:** This repository serves as a learning resource and template for building professional company websites.
-
----
-
-## 🎯 Features
-
-- 📱 Fully responsive across all devices (mobile, tablet, desktop)
-- ⚡ Optimized performance with Next.js 
-- 🎨 Modern, professional UI with Tailwind CSS
-- 🔷 Type-safe development with TypeScript
-- 🧩 Modular and reusable React components
-- ✨ Smooth animations and transitions
-- 🖼️ Dynamic image loading with optimization
-- 📄 Multiple page sections (About, Contact, Projects, Services)
-- 💬 WhatsApp integration for quick contact
-- 🎭 Animated background elements
-- ⌨️ TypeWriter text effects
-- 🌐 SEO-friendly structure
-- ♿ Accessible design patterns
-- 🎯 Error boundary for graceful error handling
 
 ---
 
