@@ -27,13 +27,13 @@ This is a **modern company website** designed to showcase services, projects, an
 
 ## 🛠 Tech Stack
 
-- **Framework:** Next.js
-- **Language:** TypeScript (TSX)
-- **Library:** React
-- **Styling:** Tailwind CSS
-- **Tooling:** PostCSS, ESLint
-- **Deployment:** Vercel
-- **Icons & Assets:** SVG graphics
+- **Framework:** ![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white)
+- **Language:** ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)
+- **Library:** ![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)
+- **Styling:** ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?logo=tailwind-css&logoColor=white)
+- **Tooling:** ![PostCSS](https://img.shields.io/badge/PostCSS-DD3A0A?logo=postcss&logoColor=white), ![ESLint](https://img.shields.io/badge/ESLint-4B32C3?logo=eslint&logoColor=white)
+- **Deployment:** ![Vercel](https://img.shields.io/badge/Vercel-000000?logo=vercel&logoColor=white)
+- **Icons & Assets:** ![SVG](https://img.shields.io/badge/SVG_Graphics-FFB13B)
 
 ---
 
